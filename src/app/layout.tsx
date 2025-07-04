@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/layouts/app-navbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { AppSidebar } from "@/layouts/app-sidebar";
 import "./globals.css";
 
@@ -40,6 +41,7 @@ export default async function RootLayout({
             <main className="px-8 py-6">{children}</main>
           </div>
         </SidebarProvider>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

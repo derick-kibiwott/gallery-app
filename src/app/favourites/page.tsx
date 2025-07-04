@@ -1,12 +1,11 @@
-import { CldUploadButton } from "@/components/cld-upload-button";
 import cloudinary from "cloudinary";
 import { AppBreadCrumb } from "@/components/app-breadcrumb";
 import { GalleryImage } from "@/components/gallery-image";
 import { SearchResults } from "@/types";
 
-export default async function Gallery() {
+export default async function Favourites() {
   const images = (await cloudinary.v2.search
-    .expression("resource_type:image")
+    .expression("resource_type:image And tags=favourite")
     .sort_by("created_at", "desc")
     .with_field("tags")
     .max_results(20)
@@ -18,13 +17,13 @@ export default async function Gallery() {
         <h1 className="text-2xl font-bold">
           <AppBreadCrumb />
         </h1>
-        <CldUploadButton />
       </div>
       <div className="columns-1 md:columns-2 lg:columns-4 gap-4 space-y-4">
-        {/* <Skeleton className="aspect-9/16 w-full" /> */}
-        {images.resources.map((image, index) => (
-          <GalleryImage image={image} key={index} />
-        ))}
+        {images.resources
+          .filter((image) => image.tags.includes("favourite"))
+          .map((image, index) => (
+            <GalleryImage image={image} key={index} />
+          ))}
       </div>
     </section>
   );
