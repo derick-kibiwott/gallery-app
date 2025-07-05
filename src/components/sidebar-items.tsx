@@ -1,51 +1,9 @@
-"use client";
+import cloudinary from "cloudinary";
+import { FoldersProps } from "@/types";
+import { SidebarItemsRenderer } from "./sidebar-items-renderer";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
-import Link from "next/link";
-import { Camera, Folders, Heart, Trash } from "lucide-react";
+export async function SidebarItems() {
+  const { folders } = (await cloudinary.v2.api.root_folders()) as FoldersProps;
 
-const items = [
-  { title: "Gallery", url: "/gallery", icon: Camera },
-  { title: "Albums", url: "/albums", icon: Folders },
-  { title: "Deleted", url: "/deleted", icon: Trash },
-  { title: "Favourites", url: "/favourites", icon: Heart },
-];
-
-export function SidebarItems() {
-  const { open } = useSidebar();
-
-  return (
-    <>
-      {items.map((item) => {
-        const Icon = item.icon;
-        return open ? (
-          <SidebarMenuButton key={item.title} asChild>
-            <Link href={item.url}>
-              <Icon />
-              <span>{item.title}</span>
-            </Link>
-          </SidebarMenuButton>
-        ) : (
-          <Tooltip key={item.title}>
-            <TooltipTrigger asChild>
-              <SidebarMenuButton asChild>
-                <Link href={item.url}>
-                  <Icon />
-                  <span className="sr-only">{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
-            </TooltipTrigger>
-            <TooltipContent side="left">
-              <span>{item.title}</span>
-            </TooltipContent>
-          </Tooltip>
-        );
-      })}
-    </>
-  );
+  return <SidebarItemsRenderer folders={folders} />;
 }

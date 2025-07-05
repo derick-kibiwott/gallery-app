@@ -7,3 +7,11 @@ export type Response = {
   status: number;
   message: string;
 };
+
+export type FoldersProps = {
+  folders: {
+    name: string;
+    path: string;
+    external_id: string;
+  }[];
+};

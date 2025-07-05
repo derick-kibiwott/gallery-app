@@ -10,14 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import cloudinary from "cloudinary";
 import Link from "next/link";
-
-type FoldersProps = {
-  folders: {
-    name: string;
-    path: string;
-    external_id: string;
-  }[];
-};
+import { FoldersProps } from "@/types";
 
 export default async function AlbumPage() {
   const { folders } = (await cloudinary.v2.api.root_folders()) as FoldersProps;
