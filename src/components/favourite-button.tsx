@@ -1,33 +1,38 @@
 "use client";
 
 import { Heart } from "lucide-react"; // Assuming you're using lucide-react for icons
-import { useState, useTransition } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { cn } from "@/lib/utils";
 import { setFavourite, removeFavourite } from "@/app/gallery/actions";
 import { toast } from "sonner";
-import { usePathname } from "next/navigation";
 
 type HeartIconProps = {
   className?: string;
   publicId: string;
-  filled?: boolean;
+  filled: boolean;
+  onClick?: () => void;
 };
 
 export function HeartIcon({
   className,
   publicId,
-  filled = false,
+  filled,
+  onClick,
 }: HeartIconProps) {
-  const path = usePathname();
   const [isLiked, setIsLiked] = useState(filled);
   const [transition, startTransition] = useTransition();
+
+  // Sync isLiked with filled prop when it changes
+  useEffect(() => {
+    setIsLiked(filled);
+  }, [filled]);
 
   const handleClick = () => {
     const newIsLiked = !isLiked;
     setIsLiked(newIsLiked);
     if (newIsLiked) {
       startTransition(async () => {
-        const response = await setFavourite(publicId, path);
+        const response = await setFavourite(publicId);
         if (response.status === 200) {
           toast.success(response.message);
         } else {
@@ -38,7 +43,7 @@ export function HeartIcon({
       });
     } else {
       startTransition(async () => {
-        const response = await removeFavourite(publicId, path);
+        const response = await removeFavourite(publicId);
         if (response.status === 200) {
           toast.success(response.message);
         } else {
@@ -53,14 +58,17 @@ export function HeartIcon({
   return (
     <Heart
       className={cn(
-        `
-          absolute top-4 right-4 cursor-pointer
-          ${isLiked ? "fill-red-500 text-red-500" : "fill-none text-gray-200"}
-          ${isLiked && "animate-pulse-once"}
-        `,
+        "cursor-pointer",
+        `${isLiked ? "fill-red-500 text-red-500" : "fill-none text-gray-200"}`,
+        `${isLiked && "animate-pulse-once"}`,
         className
       )}
-      onClick={handleClick}
+      onClick={() => {
+        handleClick();
+        if (onClick) {
+          onClick();
+        }
+      }}
     />
   );
 }

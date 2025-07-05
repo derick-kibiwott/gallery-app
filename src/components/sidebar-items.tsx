@@ -7,11 +7,11 @@ import {
 } from "@/components/ui/tooltip";
 import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { Album, Camera, Heart, Trash } from "lucide-react";
+import { Camera, Folders, Heart, Trash } from "lucide-react";
 
 const items = [
   { title: "Gallery", url: "/gallery", icon: Camera },
-  { title: "Albums", url: "/albums", icon: Album },
+  { title: "Albums", url: "/albums", icon: Folders },
   { title: "Deleted", url: "/deleted", icon: Trash },
   { title: "Favourites", url: "/favourites", icon: Heart },
 ];
