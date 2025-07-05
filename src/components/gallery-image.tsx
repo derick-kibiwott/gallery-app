@@ -29,7 +29,7 @@ export function GalleryImage({ image, removeResource }: GalleryImageProps) {
             removeResource?.(image.public_id);
           }}
         />
-        <ImageMenu />
+        <ImageMenu image={image} />
       </div>
     </div>
   );

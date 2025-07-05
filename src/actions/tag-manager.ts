@@ -1,11 +1,7 @@
 "use server";
 
 import cloudinary from "cloudinary";
-
-type Response = {
-  status: number;
-  message: string;
-};
+import { Response } from "@/types";
 
 export async function setFavourite(publicId: string): Promise<Response> {
   try {

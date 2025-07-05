@@ -12,10 +12,6 @@ export default function FavouritesList({ resources }: FavouriteListProps) {
   //setting a state in order to update it
   const [initialResources, setInitialResources] = useState(resources);
 
-  useEffect(() => {
-    setInitialResources(resources);
-  }, [resources]);
-
   const removeResource = (publicId: string) => {
     setInitialResources((prevResources) =>
       prevResources.filter((image) => image.public_id !== publicId)

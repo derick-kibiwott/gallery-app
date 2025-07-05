@@ -1,9 +1,9 @@
 "use client";
 
 import { Heart } from "lucide-react"; // Assuming you're using lucide-react for icons
-import { useState, useEffect, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
-import { setFavourite, removeFavourite } from "@/app/gallery/actions";
+import { setFavourite, removeFavourite } from "@/actions/tag-manager";
 import { toast } from "sonner";
 
 type HeartIconProps = {
@@ -21,11 +21,6 @@ export function HeartIcon({
 }: HeartIconProps) {
   const [isLiked, setIsLiked] = useState(filled);
   const [transition, startTransition] = useTransition();
-
-  // Sync isLiked with filled prop when it changes
-  useEffect(() => {
-    setIsLiked(filled);
-  }, [filled]);
 
   const handleClick = () => {
     const newIsLiked = !isLiked;
